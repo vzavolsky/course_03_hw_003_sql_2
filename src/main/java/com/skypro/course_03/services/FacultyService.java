@@ -1,7 +1,9 @@
 package com.skypro.course_03.services;
 
 import com.skypro.course_03.entity.Faculty;
+import com.skypro.course_03.entity.Student;
 import com.skypro.course_03.repositories.FacultyRepository;
+import com.skypro.course_03.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -12,9 +14,11 @@ import java.util.Optional;
 public class FacultyService {
 
     private final FacultyRepository facultyRepository;
+    private final StudentRepository studentRepository;
 
-    public FacultyService(FacultyRepository facultyRepository) {
+    public FacultyService(FacultyRepository facultyRepository, StudentRepository studentRepository) {
         this.facultyRepository = facultyRepository;
+        this.studentRepository = studentRepository;
     }
 
     public Faculty add(Faculty faculty) {
@@ -47,7 +51,11 @@ public class FacultyService {
                 });
     }
 
-    public Collection<Faculty> findAllByColor(String color) {
-        return facultyRepository.findAllByColor(color);
+    public Collection<Faculty> findAllByNameOrColor(String name, String color) {
+        return facultyRepository.findAllByNameContainsIgnoreCaseOrColorContainsIgnoreCase(name, color);
+    }
+
+    public Collection<Student> getStudentsByFacultyId(Long id) {
+        return studentRepository.findAllByFaculty_Id(id);
     }
 }

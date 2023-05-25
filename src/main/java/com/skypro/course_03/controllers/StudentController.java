@@ -1,5 +1,6 @@
 package com.skypro.course_03.controllers;
 
+import com.skypro.course_03.entity.Faculty;
 import com.skypro.course_03.entity.Student;
 import com.skypro.course_03.services.StudentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -45,4 +46,18 @@ public class StudentController {
         return ResponseEntity.ok(studentService.deleteById(id));
     }
 
+    @GetMapping(params = "age")
+    public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam int age) {
+        return ResponseEntity.ok(studentService.getStudentsByAge(age));
+    }
+
+    @GetMapping(params = {"minAge","maxAge"})
+    public ResponseEntity<Collection<Student>> findByAgeBetween(@RequestParam int minAge, @RequestParam int maxAge) {
+        return ResponseEntity.ok(studentService.findByAgeBetween(minAge, maxAge));
+    }
+
+    @GetMapping(value = "/{id}/faculty")
+    public ResponseEntity<Optional<Faculty>> getStudentFaculties(@PathVariable Long id) {
+        return ResponseEntity.ok(studentService.getStudentFaculties(id));
+    }
 }
